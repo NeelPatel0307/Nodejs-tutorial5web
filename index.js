@@ -16,21 +16,20 @@ const userSchema = new mongoose.Schema({
 }, {
   toJSON: {
     transform: function(doc, ret) {
-      ret.id = ret._id.toString(); // Assign _id value to id
+      ret.id = ret._id.toString(); 
       delete ret._id;  // Delete _id
       delete ret.__v;  // Delete __v
     },
-    virtuals: true  // Include virtuals when document is converted to JSON
+    virtuals: true  
   }
 });
 
 const User = mongoose.model('User', userSchema);
 
-// Get all users
+// Get all users from db
 app.get('/users', async (req, res) => {
     try {
-        const users = await User.find();
-        // Transform each user for the response
+        const users = await User.find(); 
         const transformedUsers = users.map(user => user.toJSON());
         res.json({ message: "Users retrieved", success: true, users: transformedUsers });
     } catch (err) {
@@ -38,7 +37,7 @@ app.get('/users', async (req, res) => {
     }
 });
 
-// Add a new user
+// Add a new user into db
 app.post('/add', async (req, res) => {
     const { email, firstName } = req.body;
     if (!email || !firstName) {
